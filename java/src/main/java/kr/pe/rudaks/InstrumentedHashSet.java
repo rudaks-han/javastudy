@@ -29,7 +29,7 @@ public class InstrumentedHashSet<E> extends HashSet<E> {
 
 class Main {
     public static void main(String[] args) {
-        InstrumentedHashSet<String> language = new InstrumentedHashSet<>();
+        InstrumentedHashSet<String> language = new InstrumentedHashSet<String>();
         language.addAll(Arrays.asList("Java", "Ruby", "Scala"));
 
         System.out.println(language.getAddCount());

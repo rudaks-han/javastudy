@@ -15,5 +15,6 @@
         <module>spi</module>
         <module>java</module>
         <module>pj4j</module>
+        <module>word-to-xls</module>
     </modules>
 </project>
