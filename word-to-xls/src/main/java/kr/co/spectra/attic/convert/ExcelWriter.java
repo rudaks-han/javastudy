@@ -1,3 +1,5 @@
+package kr.co.spectra.attic.convert;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -54,7 +56,6 @@ public class ExcelWriter
 
         try
         {
-            System.out.println("[save as excel] " + excelFilePath);
             FileUtils.forceMkdir(new File(excelFilePath.substring(0, excelFilePath.lastIndexOf("/"))));
             FileOutputStream fos = new FileOutputStream(excelFilePath);
             workbook.write(fos);

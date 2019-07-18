@@ -1,3 +1,5 @@
+package kr.co.spectra.attic.convert;
+
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
 
@@ -19,7 +21,6 @@ public class WordExtractor {
 
         try {
             dataList = parseWordDocument(wordFilePath);
-
             dataList = mapTableTitle(dataList);
             dataList = removeInList(dataList, "문서정보", "변경정보");
         } catch (Exception e) {
@@ -36,7 +37,6 @@ public class WordExtractor {
         try {
             fis = new FileInputStream(filepath);
             XWPFDocument xdoc = new XWPFDocument(OPCPackage.open(fis));
-
             Iterator<IBodyElement> iter = xdoc.getBodyElementsIterator();
 
             String paragraph = null;
@@ -46,20 +46,19 @@ public class WordExtractor {
                 IBodyElement elem = iter.next();
 
                 if (elem instanceof XWPFParagraph) {
-                    String text = ((XWPFParagraph) elem).getText();
+                    String text = parseWordParagraph(elem);
+
                     if ("".equals(text) || text == null)
                         continue;
-                    paragraph = ((XWPFParagraph) elem).getText();
+
+                    paragraph = text;
                 }
 
                 else if (elem instanceof XWPFTable) {
                     tableTitle.add(paragraph);
                     dataList = parseWordTable(elem);
                 }
-
             }
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -84,24 +83,15 @@ public class WordExtractor {
                     XWPFTableCell cell = table.getRow(i).getCell(j);
                     String text = cell.getText();
 
-                    if (j % 2 ==1) {
+                    if (j % 2 == 1) { // 테이블의 셀이 홀수번째일째 header로 저장한다.
                         String headerText = table.getRow(i).getCell(j-1).getText();
 
                         String key = null;
 
                         if ("".equals(headerText)) {
                             key = previousHeaderText;
+                            text = appendMultiLineParagraphText(cell);
 
-                            text = "";
-                            for (int k=0; k<cell.getBodyElements().size(); k++) {
-                                IBodyElement element = cell.getBodyElements().get(k);
-
-                                if (element instanceof XWPFParagraph) {
-                                    String _text = ((XWPFParagraph) element).getText();
-
-                                    text += _text + "\n";
-                                }
-                            }
                         } else {
                             key = tableHeaderToKey.get(headerText);
                         }
@@ -119,7 +109,6 @@ public class WordExtractor {
                             }
                         }
                     }
-
                 }
             }
 
@@ -130,12 +119,30 @@ public class WordExtractor {
         return dataList;
     }
 
+    private String parseWordParagraph(IBodyElement elem) {
+        return ((XWPFParagraph) elem).getText();
+    }
+
+    private String appendMultiLineParagraphText(XWPFTableCell cell) {
+        String text = "";
+        for (int i=0; i<cell.getBodyElements().size(); i++) {
+            IBodyElement element = cell.getBodyElements().get(i);
+
+            if (element instanceof XWPFParagraph) {
+                String temp = ((XWPFParagraph) element).getText();
+
+                text += temp + "\n";
+            }
+        }
+
+        return text;
+    }
+
     private List<HashMap<String, String>> mapTableTitle(List<HashMap<String, String>> dataList) {
         if (dataList != null && dataList.size() > 0) {
             for (int i = 0; i < dataList.size(); i++) {
                 HashMap<String, String> map = dataList.get(i);
                 map.put("customizeName", tableTitle.get(i));
-
             }
         }
 

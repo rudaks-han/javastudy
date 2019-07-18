@@ -12,9 +12,12 @@ public class RegexpTest {
         //String value = "sql-map-config.xml: TicketHistory.xml 를 TicketHistoryExt.xml 로 대체";
 
         //String value = "- /ecc/lib/m2repository/com/ubiz/commons-clazz/1.0alpha1/a-b-1.2.pom";
-        String value = "- ecc-02-commons-engine/src/main/java/spectra/ext/commons/beans/legacy/model/CCS00964.java (테스트 페이지)";
+        //String value = "- ecc-02-commons-engine/src/main/java/spectra/ext/commons/beans/legacy/model/CCS00964.java (테스트 페이지)";
+
+        String value = "/Users/rudaks/_WORK/_SVN/SuperTalk/eer/tags/3.0.0/supertalk-99-release/src/main/appdynamics/readme.txt";
         //String regexp = "([a-zA-Z0-9*]\\.[a-zA-Z0-9*])";
-        String regexp = "[a-zA-Z0-9-_.]*\\.[a-zA-Z0-9-_]*";
+        //String regexp = "[a-zA-Z0-9-_.]*\\.[a-zA-Z0-9-_]*";
+        String regexp = ".*eer/tags/([0-9]\\.[0-9]\\.[0-9])(.*)";
 
 
         Pattern infoPattern = Pattern.compile(regexp);
@@ -24,6 +27,8 @@ public class RegexpTest {
         }*/
         while (infoMatcher.find()) {
             System.out.println(infoMatcher.group());
+            System.out.println(infoMatcher.group(1));
+            System.out.println(infoMatcher.group(2));
         }
     }
 }

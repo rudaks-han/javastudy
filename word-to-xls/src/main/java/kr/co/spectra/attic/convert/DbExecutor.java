@@ -1,33 +1,38 @@
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
+package kr.co.spectra.attic.convert;
 
-import java.sql.*;
+import org.apache.commons.io.FilenameUtils;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DbWriter {
+public class DbExecutor {
 
+    Settings settings;
     private Connection conn;
     private PreparedStatement pstmt;
 
-    private Connection getConnection() throws Exception {
-        Class.forName("org.postgresql.Driver");
+    public DbExecutor(Settings settings) {
+        this.settings = settings;
+    }
 
-        conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/testdb", "test", "test");
+    private Connection getConnection() throws Exception {
+        Class.forName(settings.getJdbcDriver());
+        conn = DriverManager.getConnection(settings.getJdbcUrl(), settings.getJdbcUser(), settings.getJdbcPassword());
 
         return conn;
     }
 
-    public void execute(String siteName, String fileName, String eerVersion, List<HashMap<String, String>> dataList) {
+    public void execute(String siteName, String fileName, String eerVersion, List<HashMap<String, String>> dataList, Map<String, Map<String, EERFile>> eerFileMap) {
 
         insertCustomize(siteName, fileName, eerVersion, dataList);
-
-        insertCustomizeChangedFiles(siteName, dataList);
-
-        System.out.println("[execute sql] " + siteName);
+        insertCustomizeChangedFiles(siteName, eerVersion, dataList, eerFileMap);
     }
 
     private void insertCustomize(String siteName, String fileName, String eerVersion, List<HashMap<String, String>> dataList) {
@@ -81,11 +86,11 @@ public class DbWriter {
         }
     }
 
-    private void insertCustomizeChangedFiles(String siteName, List<HashMap<String, String>> dataList) {
+    private void insertCustomizeChangedFiles(String siteName, String eerVersion, List<HashMap<String, String>> dataList, Map<String, Map<String, EERFile>> eerFileMap) {
         try {
             conn = getConnection();
-            String sql = "INSERT INTO t_customize_changed_file(site_name, customize_name, filepath, filename, ext) ";
-            sql += "VALUES(?,?,?,?,?) ";
+            String sql = "INSERT INTO t_customize_changed_file(site_name, eer_version, customize_name, filepath, filename, ext, file_modified_type) ";
+            sql += "VALUES(?,?,?,?,?,?,?) ";
 
             if (dataList != null && dataList.size() > 0) {
                 for (int i = 0; i < dataList.size(); i++) {
@@ -102,12 +107,24 @@ public class DbWriter {
                                 String fileName = getFileName(arChangedFiles[j]);
                                 String fileExt = FilenameUtils.getExtension(fileName);
 
+                                String fileModifiedType = "";
+                                if (eerFileMap != null) {
+                                    if (eerFileMap.containsKey(eerVersion)) {
+                                        Map eerVersionMap = eerFileMap.get(eerVersion);
+                                        if (!eerVersionMap.containsKey(fileName)) fileModifiedType = "ADD";
+                                    } else {
+                                        fileModifiedType = "MODIFY";
+                                    }
+                                }
+
                                 pstmt = conn.prepareStatement(sql);
                                 pstmt.setString(1, siteName);
-                                pstmt.setString(2, map.get("customizeName"));
-                                pstmt.setString(3, arChangedFiles[j]);
-                                pstmt.setString(4, fileName);
-                                pstmt.setString(5, fileExt);
+                                pstmt.setString(2, eerVersion);
+                                pstmt.setString(3, map.get("customizeName"));
+                                pstmt.setString(4, arChangedFiles[j]);
+                                pstmt.setString(5, fileName);
+                                pstmt.setString(6, fileExt);
+                                pstmt.setString(7, fileModifiedType);
 
                                 pstmt.execute();
                                 pstmt.close();
@@ -141,11 +158,7 @@ public class DbWriter {
     private String getFileName(String filePath) {
         String fileName = "";
         if (filePath != null && filePath.length() > 0 && filePath.indexOf("/") > -1 && filePath.indexOf(".") > -1) {
-            //String temp = filePath.substring(filePath.lastIndexOf("/")+1);
-
-            //if (temp.indexOf(".") > -1) {
-                fileName = getFileNameByRegExp(filePath);
-            //}
+            fileName = getFileNameByRegExp(filePath);
         }
 
         return fileName;
