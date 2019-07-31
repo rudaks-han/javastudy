@@ -16,5 +16,6 @@
         <module>java</module>
         <module>pj4j</module>
         <module>word-to-xls</module>
+        <module>design-patterns</module>
     </modules>
 </project>
