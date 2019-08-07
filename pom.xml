@@ -15,7 +15,11 @@
         <module>spi</module>
         <module>java</module>
         <module>pj4j</module>
-        <module>word-to-xls</module>
         <module>design-patterns</module>
     </modules>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 </project>
