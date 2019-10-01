@@ -16,6 +16,8 @@
         <module>java</module>
         <module>pj4j</module>
         <module>design-patterns</module>
+        <module>java-parser</module>
+        <module>java-source-roaster</module>
     </modules>
 
     <properties>
