@@ -18,6 +18,7 @@
         <module>design-patterns</module>
         <module>java-parser</module>
         <module>java-source-roaster</module>
+        <module>velocity</module>
     </modules>
 
     <properties>

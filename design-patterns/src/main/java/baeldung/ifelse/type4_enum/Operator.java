@@ -1,4 +1,4 @@
-package blog.ifelse.type4_enum;
+package baeldung.ifelse.type4_enum;
 
 public enum Operator {
     ADD {

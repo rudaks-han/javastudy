@@ -1,4 +1,4 @@
-package blog.ifelse.type3_factory;
+package baeldung.ifelse.type3_factory;
 
 public class Calculator {
 

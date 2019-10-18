@@ -1,4 +1,4 @@
-package blog.ifelse.type2_switch;
+package baeldung.ifelse.type2_switch;
 
 public class Calculator2 {
 

@@ -1,4 +1,4 @@
-package blog.ifelse.type1;
+package baeldung.ifelse.type1;
 
 public class Calculator {
 

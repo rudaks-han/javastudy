@@ -1,4 +1,4 @@
-package blog.ifelse.type5_command;
+package baeldung.ifelse.type5_command;
 
 public class AddCommand implements Command {
     // Instance variables
