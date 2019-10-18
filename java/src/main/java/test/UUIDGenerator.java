@@ -36,9 +36,11 @@ public class UUIDGenerator {
         long count = 1000000;
         System.out.println("checking for " + count);
 
+        SequenceGenerator sequenceGenerator = new SequenceGenerator();
         for (long i=0; i<count; i++) {
             //String id = shortUUID();
-            String id = uuidToBase64(UUID.randomUUID().toString());
+            //String id = uuidToBase64(UUID.randomUUID().toString());
+            String id = sequenceGenerator.nextId() + "";
 
             if (list.contains(id)) {
                 System.err.println("==== exists ====");
