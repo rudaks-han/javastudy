@@ -19,6 +19,8 @@
         <module>java-parser</module>
         <module>java-source-roaster</module>
         <module>velocity</module>
+        <module>kafka</module>
+        <module>jpa</module>
     </modules>
 
     <properties>
