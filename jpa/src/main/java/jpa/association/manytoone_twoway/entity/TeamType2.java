@@ -1,4 +1,4 @@
-package jpa.manytoone_twoway.entity;
+package jpa.association.manytoone_twoway.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

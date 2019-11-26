@@ -1,6 +1,6 @@
-package jpa.manytoone_twoway.repository;
+package jpa.association.manytoone_twoway.repository;
 
-import jpa.manytoone_twoway.entity.MemberType2;
+import jpa.association.manytoone_twoway.entity.MemberType2;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

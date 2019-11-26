@@ -1,13 +1,13 @@
-package jpa;
+package jpa.association;
 
-import jpa.manytoone_oneway.entity.MemberType1;
-import jpa.manytoone_oneway.entity.TeamType1;
-import jpa.manytoone_oneway.repository.MemberType1Repository;
-import jpa.manytoone_oneway.repository.TeamType1Repository;
-import jpa.manytoone_twoway.entity.MemberType2;
-import jpa.manytoone_twoway.entity.TeamType2;
-import jpa.manytoone_twoway.repository.MemberType2Repository;
-import jpa.manytoone_twoway.repository.TeamType2Repository;
+import jpa.association.manytoone_oneway.entity.MemberType1;
+import jpa.association.manytoone_oneway.entity.TeamType1;
+import jpa.association.manytoone_oneway.repository.MemberType1Repository;
+import jpa.association.manytoone_oneway.repository.TeamType1Repository;
+import jpa.association.manytoone_twoway.entity.MemberType2;
+import jpa.association.manytoone_twoway.entity.TeamType2;
+import jpa.association.manytoone_twoway.repository.MemberType2Repository;
+import jpa.association.manytoone_twoway.repository.TeamType2Repository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

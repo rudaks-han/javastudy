@@ -1,4 +1,4 @@
-package jpa.manytoone_oneway.entity;
+package jpa.association.manytoone_oneway.entity;
 
 import lombok.*;
 
