@@ -16,8 +16,12 @@
         <module>java</module>
         <module>pj4j</module>
         <module>design-patterns</module>
-        <module>uid-generator</module>
-        <module>dependency-injection</module>
+        <module>java-parser</module>
+        <module>java-source-roaster</module>
+        <module>velocity</module>
+        <module>kafka</module>
+        <module>jpa</module>
+        <module>java8</module>
     </modules>
 
     <properties>
