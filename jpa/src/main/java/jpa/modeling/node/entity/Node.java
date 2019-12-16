@@ -35,5 +35,6 @@ public class Node {
 
     public void addChild(Node node) {
         this.children.add(node);
+        node.parent = null;
     }
 }

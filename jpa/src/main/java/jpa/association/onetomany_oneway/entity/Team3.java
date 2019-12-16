@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class TeamType3 {
+public class Team3 {
 
     @Id
     private String id;
@@ -24,5 +24,5 @@ public class TeamType3 {
 
     @OneToMany
     @JoinColumn(name = "team_id")
-    private List<MemberType3> members = new ArrayList<>();
+    private List<Member3> members = new ArrayList<>();
 }

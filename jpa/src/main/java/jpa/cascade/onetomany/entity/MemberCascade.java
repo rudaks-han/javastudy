@@ -1,9 +1,8 @@
-package jpa.association.onetomany_oneway.entity;
+package jpa.cascade.onetomany.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +10,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
-public class MemberType3 {
+public class MemberCascade {
 
     @Id
     private String id;

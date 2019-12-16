@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,10 +13,15 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
-public class TeamType1 {
+public class Member1 {
 
     @Id
     private String id;
 
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team1 team1;
+
 }
