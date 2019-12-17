@@ -31,6 +31,7 @@ public class OrphanRemovalTest {
         team.addMember(member);
         teamOrphanRemovalRepository.save(team);
 
+        // remove
         teamOrphanRemovalRepository.delete(team);
     }
 

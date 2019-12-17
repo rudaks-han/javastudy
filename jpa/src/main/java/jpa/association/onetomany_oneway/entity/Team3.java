@@ -2,10 +2,7 @@ package jpa.association.onetomany_oneway.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,16 @@ public class Team3 {
 
     private String name;
 
-    @OneToMany
+    public Team3(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public void addMember(Member3 member3) {
+        this.members.add(member3);
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "team_id")
     private List<Member3> members = new ArrayList<>();
 }

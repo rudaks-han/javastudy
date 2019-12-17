@@ -11,6 +11,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class Member3 {
 
     @Id
