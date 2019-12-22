@@ -22,6 +22,7 @@
         <module>kafka</module>
         <module>jpa</module>
         <module>java8</module>
+        <module>jackson</module>
     </modules>
 
     <properties>
