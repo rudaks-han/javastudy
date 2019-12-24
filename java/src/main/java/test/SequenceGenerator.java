@@ -101,9 +101,10 @@ public class SequenceGenerator {
     public static void main(String[] args) {
         // https://www.callicoder.com/distributed-unique-id-sequence-number-generator/
 
-        long nextId = new SequenceGenerator().nextId();
-        System.out.println(nextId);
-        System.out.println((nextId+"").length()); // 18
+        for (int i=0; i<100; i++) {
+            long nextId = new SequenceGenerator().nextId();
+            System.out.println(nextId);
+        }
 
     }
 }

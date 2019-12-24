@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class TeamType2 {
+public class Team2 {
 
     @Id
     private String id;
@@ -25,9 +25,9 @@ public class TeamType2 {
     private String name;
 
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
-    private List<MemberType2> members = new ArrayList<>();
+    private List<Member2> members = new ArrayList<>();
 
-    public TeamType2(String id, String name) {
+    public Team2(String id, String name) {
         this.id = id;
         this.name = name;
     }

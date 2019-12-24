@@ -1,4 +1,4 @@
-package jpa.association.manytoone_oneway.entity;
+package jpa.association.onetomany_oneway.entity;
 
 import lombok.*;
 
@@ -11,10 +11,12 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
-public class TeamType1 {
+@EqualsAndHashCode
+public class Member3 {
 
     @Id
     private String id;
 
     private String name;
+
 }

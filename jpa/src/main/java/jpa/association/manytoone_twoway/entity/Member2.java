@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class MemberType2 {
+public class Member2 {
 
     @Id
     private String id;
@@ -24,14 +24,14 @@ public class MemberType2 {
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-    private TeamType2 team;
+    private Team2 team;
 
-    public MemberType2(String id, String name) {
+    public Member2(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public void setTeam(TeamType2 team) {
+    public void setTeam(Team2 team) {
 
         if (this.team != null) {
             this.team.getMembers().remove(this);

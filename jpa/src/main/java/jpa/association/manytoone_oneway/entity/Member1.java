@@ -1,13 +1,11 @@
-package jpa.association.onetomany_oneway.entity;
+package jpa.association.manytoone_oneway.entity;
 
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.ManyToOne;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,14 +13,15 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class TeamType3 {
+public class Member1 {
 
     @Id
     private String id;
 
     private String name;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "team_id")
-    private List<MemberType3> members = new ArrayList<>();
+    private Team1 team1;
+
 }
