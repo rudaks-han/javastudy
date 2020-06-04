@@ -1,0 +1,27 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    bus:
+      enabled: true
+    config:
+      server:
+        native:
+          order: 1
+          search-locations: classpath:/configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+encrypt:
+  key: 111

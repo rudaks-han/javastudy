@@ -1,0 +1,19 @@
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+
+prop1: config4
+sameProp: config
+where: application.yml

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: user-api
+  cloud:
+    config:
+      uri: http://localhost:8090
+    bus:
+      refresh:
+        enabled: true
+      env:
+        enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+
+sameProp: user

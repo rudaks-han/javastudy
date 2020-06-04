@@ -23,6 +23,10 @@
         <module>jpa</module>
         <module>java8</module>
         <module>jackson</module>
+        <module>tika</module>
+        <module>jsoup</module>
+        <module>lombok</module>
+        <module>spring-cloud</module>
     </modules>
 
     <properties>

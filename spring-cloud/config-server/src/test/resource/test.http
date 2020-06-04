@@ -1,0 +1,9 @@
+POST http://localhost:8090/actuator/bus-refresh
+
+###
+
+POST http://localhost:8000/encrypt
+
+aa
+
+###
