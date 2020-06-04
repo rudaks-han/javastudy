@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 1.5.8">
+<title>Cassandra 설치 가이드</title>
+<style>
+/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Uncomment @import statement below to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
+audio,canvas,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+script{display:none!important}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:transparent}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:none}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+*:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+*:not(pre)>code.nobreak{word-wrap:normal}
+*:not(pre)>code.nowrap{white-space:nowrap}
+pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock pre:not(.highlight),.listingblock pre[class="highlight"],.listingblock pre[class^="highlight "],.listingblock pre.CodeRay,.listingblock pre.prettyprint{background:#f7f7f8}
+.sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
+.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock pre.nowrap,.literalblock pre.nowrap pre,.listingblock pre.nowrap,.listingblock pre.nowrap pre{white-space:pre;word-wrap:normal}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:#999}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:#999}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
+table.pyhltable td.code{padding-left:.75em;padding-right:0}
+pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #dddddf}
+pre.pygments .lineno{display:inline-block;margin-right:.25em}
+table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin:0 0 1.25em;padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd){background:#f8f8f7}
+table.stripes-none tr,table.stripes-odd tr:nth-of-type(even){background:none}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+td>div.verse{white-space:pre}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background-color:#00fafa}
+.black{color:#000}
+.black-background{background-color:#000}
+.blue{color:#0000bf}
+.blue-background{background-color:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background-color:#fa00fa}
+.gray{color:#606060}
+.gray-background{background-color:#7d7d7d}
+.green{color:#006000}
+.green-background{background-color:#007d00}
+.lime{color:#00bf00}
+.lime-background{background-color:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background-color:#7d0000}
+.navy{color:#000060}
+.navy-background{background-color:#00007d}
+.olive{color:#606000}
+.olive-background{background-color:#7d7d00}
+.purple{color:#600060}
+.purple-background{background-color:#7d007d}
+.red{color:#bf0000}
+.red-background{background-color:#fa0000}
+.silver{color:#909090}
+.silver-background{background-color:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background-color:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background-color:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background-color:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background-color:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+<link rel="stylesheet" href="../static/stylesheet/sendbird.css">
+<script src="/docs/static/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="/docs/static/js/common.js" type="text/javascript"></script>
+
+<script>
+    var staticUrl = appStaticUrl();
+
+    $(function () {
+        setStaticUrl(staticUrl);
+        displayApiMenuList();
+        addClickEventToMenuList();
+
+        addPdfDownloadButton();
+    });
+</script>
+<div id="doc-header">
+    <div class="layout">
+        <div>
+            <img src="/docs/static/image/coffee-32.png"/>
+        </div>
+        <div class="item">
+            Attic
+        </div>
+        <span class="line"></span>
+        <div class="item">
+            Documentation
+        </div>
+        <div id="log"></div>
+    </div>
+    <div class="menu-layer">
+        <div class="menu-div" id="menu-list-id">
+            <i><img src="/docs/static/image/coffee.png"/></i>
+            <div class="text menu">
+                <div>Platform API</div>
+            </div>
+            <div class="arrow"><img align="arrow" height="16" id="menu-arrow-id"
+                                    src="/docs/static/image/expand-arrow-16.png"
+                                    width="16"/></div>
+        </div>
+
+        <div class="submenu-div">
+            <div class="menu-list">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/docs/static/js/docinfo.js" type="text/javascript"></script>
+
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Cassandra 설치 가이드</h1>
+<div id="toc" class="toc2">
+<div id="toctitle"></div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">1. Introduction</a>
+<ul class="sectlevel2">
+<li><a href="#_cassandra_특징">1.1. Cassandra 특징</a></li>
+<li><a href="#_cassandra_설명">1.2. Cassandra 설명</a></li>
+</ul>
+</li>
+<li><a href="#_getting_started">2. Getting Started</a>
+<ul class="sectlevel2">
+<li><a href="#_cassandra_data_structure">2.1. Cassandra Data Structure</a></li>
+<li><a href="#_distributed_database">2.2. Distributed Database</a></li>
+<li><a href="#_snitch_란">2.3. Snitch 란?</a></li>
+<li><a href="#_gossip_이란">2.4. Gossip 이란?</a></li>
+<li><a href="#_data가_어떻게_분산되는가">2.5. Data가 어떻게 분산되는가?</a></li>
+<li><a href="#_replication_factor">2.6. replication factor</a></li>
+<li><a href="#_virtual_node">2.7. virtual node</a></li>
+</ul>
+</li>
+<li><a href="#_cassandra_설치">3. Cassandra 설치</a>
+<ul class="sectlevel2">
+<li><a href="#_jdk_다운로드_및_설치">3.1. JDK 다운로드 및 설치</a></li>
+<li><a href="#_cassandra_다운로드">3.2. Cassandra 다운로드</a></li>
+<li><a href="#_cassandra_설치_바이너리">3.3. Cassandra 설치 (바이너리)</a></li>
+<li><a href="#_cassandra_실행">3.4. Cassandra 실행</a></li>
+<li><a href="#_클라이언트로_접속하기_cqlsh">3.5. 클라이언트로 접속하기 (cqlsh)</a></li>
+</ul>
+</li>
+<li><a href="#_클라이언트_명령어">4. 클라이언트 명령어</a>
+<ul class="sectlevel2">
+<li><a href="#_nodetool_status">4.1. nodetool status</a></li>
+<li><a href="#_nodetool_info">4.2. nodetool info</a></li>
+<li><a href="#_nodetool_removenode">4.3. nodetool removenode</a></li>
+<li><a href="#_keyspace_목록_보기">4.4. keyspace 목록 보기</a></li>
+<li><a href="#_column_정보_보기">4.5. column 정보 보기</a></li>
+</ul>
+</li>
+<li><a href="#_cassandra_database">5. Cassandra Database</a>
+<ul class="sectlevel2">
+<li><a href="#_database_이해">5.1. Database 이해</a></li>
+<li><a href="#_keyspace_생성">5.2. keyspace 생성</a></li>
+<li><a href="#_keyspace_삭제">5.3. keyspace 삭제</a></li>
+<li><a href="#_table_생성">5.4. table 생성</a></li>
+<li><a href="#_cql_key_용어">5.5. CQL key 용어</a></li>
+</ul>
+</li>
+<li><a href="#_cassandra_cluster_구성">6. Cassandra Cluster 구성</a>
+<ul class="sectlevel2">
+<li><a href="#_clustering_준비">6.1. Clustering 준비</a></li>
+<li><a href="#_사전_준비사항">6.2. 사전 준비사항</a></li>
+<li><a href="#_node의_ip_주소_확인">6.3. node의 ip 주소 확인</a></li>
+<li><a href="#_seed_node_확인">6.4. seed node 확인</a></li>
+<li><a href="#_clustering_실습_예제">6.5. Clustering 실습 예제</a></li>
+<li><a href="#_cassandra_시작_3개_노드">6.6. cassandra 시작 (3개 노드)</a></li>
+</ul>
+</li>
+<li><a href="#_cassandra_stress_tool">7. Cassandra Stress Tool</a>
+<ul class="sectlevel2">
+<li><a href="#_설치">7.1. 설치</a></li>
+<li><a href="#_실행">7.2. 실행</a></li>
+</ul>
+</li>
+<li><a href="#_trouble_shooting">8. Trouble Shooting</a>
+<ul class="sectlevel2">
+<li><a href="#_접속_오류">8.1. 접속 오류</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_introduction"><a class="link" href="#_introduction">1. Introduction</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_cassandra_특징"><a class="link" href="#_cassandra_특징">1.1. Cassandra 특징</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Open Source</p>
+</li>
+<li>
+<p>NoSQL database 기술</p>
+</li>
+<li>
+<p>분산 distributed database 기술</p>
+</li>
+<li>
+<p>대규모 확장을 위한 빅 데이타 기술</p>
+</li>
+<li>
+<p>고 가용성을 위해 1개 이상의 데이타센터 노드로 확장 가능</p>
+</li>
+<li>
+<p>Amazon Dynamo와 Google Big Table 기반</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cassandra_설명"><a class="link" href="#_cassandra_설명">1.2. Cassandra 설명</a></h3>
+<div class="paragraph">
+<p>Cassandra는 <code>scalability</code>와 <code>high availability</code>에 최적화된 대표적인 분산형 Data storage입니다.
+Consistent hashing을 이용한 <code>Ring 구조</code>와 <code>Gossip protocol</code>을 구현하였으며, 때문에 각 노드 장비들의 추가, 제거 등이 자유롭고, 데이터센터까지 고려 할 수 있는 데이터 복제 정책을 사용하여 안정성 측면에서 많은 장점을 가지고 있습니다.
+Cassandra를 이용하면 Sharding을 고려해야 할 필요도 없고 Master-Slave 와 같은 정책이 없어도 장애에 대응할 수 있으며, 필요에 따라 장비들을 늘리고 줄이는 데 큰 비용이 들지 않습니다.<br>
+물론 그렇다고 해서 Cassandra가 완벽한 솔루션은 아닙니다. 당연한 이야기지만 모든 일에는 trade off가 있듯이 저러한 강력한 기능들이 구현됨으로써 반대로 수많은 단점들 역시 발생하였기 때문입니다.
+Cassandra는 <code>Join</code>이나 <code>Transaction</code>을 지원하지 않고, Index 등의 검색을 위한 기능도 매우 단출합니다.
+게다가 Cassandra의 구조상 RDBMS와 같은 Paging을 구현하는 것이 힘들고 Keyspace(RDBMS의 DB와 같은)나 Table 등을 과도하게 생성할 경우 Memory Overflow가 발생할 수 있음을 고려하여야 합니다.<br>
+따라서 Cassandra가 기존의 RDBMS들의 완벽한 대체품이라고 할 수는 없으므로, 개발하게 될 제품의 기능과 특징에 따라 Cassandra를 사용할 것인지 RDBMS를 사용할 것인지를 신중히 결정하여야 합니다.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_started"><a class="link" href="#_getting_started">2. Getting Started</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_cassandra_data_structure"><a class="link" href="#_cassandra_data_structure">2.1. Cassandra Data Structure</a></h3>
+<div class="imageblock">
+<div class="content">
+<img src="../images/cassandra_data_structure.png" alt="cassandra data structure">
+</div>
+</div>
+<div class="paragraph">
+<p>최상위에 논리적 data 저장소인 keyspace가 있고, keyspace 하위에 table이 존재합니다.<br>
+Table은 다수의 row들로 구성되어 있으며 각 row는 key-value로 이루어진 column들로 구성됩니다.<br>
+RDBMS의 DB-Table-Row-Column의 형태와 유사한 구조를 하고 있다는 걸 알 수 있습니다.<br>
+더구나 Cassandra는 현재 CQL (Cassandra Query Language)을 지원하고 있습니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_distributed_database"><a class="link" href="#_distributed_database">2.2. Distributed Database</a></h3>
+<div class="imageblock">
+<div class="content">
+<img src="../images/cassandra_datacenter.png" alt="cassandra datacenter">
+</div>
+</div>
+<div class="paragraph">
+<p>일반적인 database가 1개의 노드에 한정되어 있는데 Cassandra는 노드 수에 제한없이 쉽게 노드를 확장할 수 있습니다.
+추가된 노드는 다른 노드와 동일한 기능을 한다. 또한 master/slave 노드가 따로 정해지지 않아서 SPOF(Single Point of Failure)가 없습니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snitch_란"><a class="link" href="#_snitch_란">2.3. Snitch 란?</a></h3>
+<div class="paragraph">
+<p>snitch는 데이타센터가 어떻게 구성되어 있는지, 장비가 설치된 렉이 어떻게 나뉘어져 있는지에 대한 topology를 Cassandra에 알려주기 위한 옵션입니다.</p>
+</div>
+<div class="paragraph">
+<p>어떤 방법들이 사용되는가?</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dynamic Snitching</p>
+</li>
+<li>
+<p>SimpleSnitch (default)</p>
+</li>
+<li>
+<p>RactInferringSnitch</p>
+</li>
+<li>
+<p>PropertyFileSnitch</p>
+</li>
+<li>
+<p>GossipingPropertyFileSnitch</p>
+</li>
+<li>
+<p>EC2Snitch</p>
+</li>
+<li>
+<p>EC2MultiRegionSnitch</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>기본값인 SimpleSnitch는 하나의 cluster(1 data center)에서는 전혀 문제 없이 사용할 수 있습니다. 하지만 여러 개의 data center를 구성할 경우 변경해야 합니.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gossip_이란"><a class="link" href="#_gossip_이란">2.4. Gossip 이란?</a></h3>
+<div class="paragraph">
+<p>Gossip은 cluster 내에 있는 노드 간에 정보를 공유하는 프로토콜을 말합니다.<br>
+1초에 한번 각 노드는 3개의 다른 노드와 통신합니다.
+(자신의 정보와 자신이 갖고 있는 다른 노드 정보를 교환)</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data가_어떻게_분산되는가"><a class="link" href="#_data가_어떻게_분산되는가">2.5. Data가 어떻게 분산되는가?</a></h3>
+<div class="paragraph">
+<p>Data Distribution은 consistent hashing을 통해 진행됩니다.<br>
+특정 마스터 노드가 없이 동작합니다.<br>
+partition key를 token으로 변환해주는 모듈을 <code>Partitioner</code>라고 부릅니다.</p>
+</div>
+<div class="paragraph">
+<p>데이타가 입력이 되면..<br>
+1. 노드에 데이타를 분산하기 위해 partitioner가 사용됩니다.<br>
+2. partitioner는 어느 node로 갈것인지 알고리즘을 사용합니다.<br>
+3. default partitioner는 Murmer3 입니다.</p>
+</div>
+<div class="paragraph">
+<p>murmur3는 첫번째 컬럼값에 대한 unique 숫자를 생성합니다.</p>
+</div>
+<div class="paragraph">
+<p>아래 링크에서 node 갯수별 cassandra token을 계산할 수 있습니다.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.geroba.com/cassandra/cassandra-token-calculator" class="bare">https://www.geroba.com/cassandra/cassandra-token-calculator</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_replication_factor"><a class="link" href="#_replication_factor">2.6. replication factor</a></h3>
+<div class="paragraph">
+<p>replication factor는 데이타가 몇개의 데이타베이스에 저장될 것인지를 명시합니다.<br>
+일반적으로 2,3개 이상 적용하는 것이 좋습니다.
+(2-3개의 복제)본</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/cassandra_replication_factor.png" alt="cassandra replication factor">
+</div>
+</div>
+<div class="paragraph">
+<p>위의 그림의 경우에 replication_factor가 3이고 2개 노드가 다운되어 있어도 정상적으로 동작하는 것을 나타냅니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_virtual_node"><a class="link" href="#_virtual_node">2.7. virtual node</a></h3>
+<div class="paragraph">
+<p>노드에 token 범위를 할당하는 방법입니다.<br>
+클러스터가 균일하게 노드를 배치하기 위해서 수동으로 토큰 범위를 지정하지 않고 새 노드를 추가할 수 있는 기능입니다.<br>
+virtual node로 하나의 작은 token범위를 지정한다.
+(기본 256개), 조각을 낸 것으로 보면 됩니다.<br>
+고성능이라면 512, 저성능이라면 128로 지정할 수 있습니다.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cassandra_설치"><a class="link" href="#_cassandra_설치">3. Cassandra 설치</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra 설치방법은 1. tar로 설치하는 방법과 2. package로 설치하는 방법이 있습니다.<br>
+이 문서에서는 linux를 기준으로 tar로 설치하는 방법만 설명하고 있습니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_jdk_다운로드_및_설치"><a class="link" href="#_jdk_다운로드_및_설치">3.1. JDK 다운로드 및 설치</a></h3>
+<div class="paragraph">
+<p>jdk는 아래 링크를 통해 다운로드 받습니다. (java 8이상)</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">java download</dt>
+<dd>
+<p><span class="underline"><a href="https://www.java.com/ko/" class="bare" target="_blank" rel="noopener">https://www.java.com/ko/</a></span></p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>jdk 설치방법은 생략하며 자세한 정보가 필요한 경우 인터넷 검색을 활용하시기 바랍니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cassandra_다운로드"><a class="link" href="#_cassandra_다운로드">3.2. Cassandra 다운로드</a></h3>
+<div class="paragraph">
+<p>카산드라는 웹에서 최신 배포 버전을 gzip으로 압축한 tar형태로 받을 수 있습니다. 바이너리로 미리 빌드한 파일은 apache-cassandra-x.x.x-bin.tar.gz로 제공되며 x.x.x는 버전 번호를 뜻합니다.
+내려받을 크기는 10MB 정도가 됩니다.</p>
+</div>
+<div class="paragraph">
+<p>아래 링크에서 설치버전을 다운로드 받습니다.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">cassandra download</dt>
+<dd>
+<p><span class="underline"><a href="http://cassandra.apache.org" class="bare" target="_blank" rel="noopener">http://cassandra.apache.org</a></span> (apache-cassandra-3.11.6-bin.tar.gz)</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cassandra_설치_바이너리"><a class="link" href="#_cassandra_설치_바이너리">3.3. Cassandra 설치 (바이너리)</a></h3>
+<div class="paragraph">
+<p><code>파일을 설치할 경로로 복사</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># cp {다운로드 경로}/apache-cassandra-3.11.6.bin.tar.gz {CASSANDRA_HOME} <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>{CASSANDRA_HOME}은 Cassandra 설치 경로이다.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>압축 해제</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># gunzip apache-cassandra-3.11.6.bin.tar.gz <i class="conum" data-value="1"></i><b>(1)</b>
+
+# tar xvf apache-cassandra-3.11.6.bin.tar <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>gunzip 실행</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>tar 실행</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>환경변수 설정</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># vi ~/.bash_profile
+
+export CASSANDRA_HOME=/home/rudaks/apache-cassandra-3.11.6 <i class="conum" data-value="1"></i><b>(1)</b>
+
+# source ~/.bash_profile</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>환경변수에 CASSANDRA_HOME을 설정한다.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>Cassandra 설정</code></p>
+</div>
+<div class="paragraph">
+<p>아래 설정을 하지 않아도 Cassandra를 실행 하는데는 문제가 없지만 실행 시 파일과 로그가 /var/lib/cassandra 하위에 남게 되므로 파일의 위치를 변경하도록 합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># cd apache-cassandra-3.11.6/conf
+# vi cassandra.yaml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>파일을 열어 아래 내용을 추가합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">data_file_directories:
+  - [cassandra 설치경로]/data <i class="conum" data-value="1"></i><b>(1)</b>
+commitlog_directory: [cassandra 설치경로]/commitlog <i class="conum" data-value="2"></i><b>(2)</b>
+saved_caches_directory: [cassandra 설치경로]/saved_caches <i class="conum" data-value="3"></i><b>(3)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Data 파일 저장 경로</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Commit log 저장 경로</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Cache 저장 경로</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cassandra_실행"><a class="link" href="#_cassandra_실행">3.4. Cassandra 실행</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cd {CASSANDRA_HOME}/bin
+# ./cassandra -f <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>./cassandra를 실행해도 되지만 -f 옵션을 사용하면 Cassandra가 background process가 아닌 <code>foreground</code> process로 실행되어 로그를 확인하기 좋습니다.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_클라이언트로_접속하기_cqlsh"><a class="link" href="#_클라이언트로_접속하기_cqlsh">3.5. 클라이언트로 접속하기 (cqlsh)</a></h3>
+<div class="paragraph">
+<p>다른 터미널을 하나 접속해서 아래 명령어를 실행합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./cqlsh <i class="conum" data-value="1"></i><b>(1)</b>
+
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.6 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+cqlsh&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>위의 화면이 표시되면 정상적으로 접속이 된 것이다.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_클라이언트_명령어"><a class="link" href="#_클라이언트_명령어">4. 클라이언트 명령어</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_nodetool_status"><a class="link" href="#_nodetool_status">4.1. nodetool status</a></h3>
+<div class="paragraph">
+<p>노드의 상태를 보여주며 아래의 정보를 나타냅니다.<br>
+- the state, IP address of a node, load carrying, owns, host id and rack information.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./nodetool status
+
+Datacenter: datacenter1
+Status=Up/Down
+|/ State=Normal/Leaving/Joining/Moving
+--  Address    Load       Tokens       Owns (effective)  Host ID                               Rack
+UN  127.0.0.1  438.81 KiB  256          100.0%            626d0a7a-83e4-40c8-b047-c585350a12a4  rack1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nodetool_info"><a class="link" href="#_nodetool_info">4.2. nodetool info</a></h3>
+<div class="paragraph">
+<p>노드의 정보를 나타내며 아래 정보를 표시합니다.<br>
+ID, data center, cache information such that row cache, key cache, uptime in seconds, and heap memory usage etc.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./nodetool info
+
+ID                     : 626d0a7a-83e4-40c8-b047-c585350a12a4
+Gossip active          : true
+Thrift active          : false
+Native Transport active: true
+Load                   : 102.84 MiB
+Generation No          : 1586843591
+Uptime (seconds)       : 148163
+Heap Memory (MB)       : 935.83 / 3993.63
+Off Heap Memory (MB)   : 0.58
+Data Center            : datacenter1
+Rack                   : rack1
+Exceptions             : 0
+Key Cache              : entries 54, size 4.68 KiB, capacity 100 MiB, 203 hits, 271 requests, 0.749 recent hit rate, 14400 save period in seconds
+Row Cache              : entries 0, size 0 bytes, capacity 0 bytes, 0 hits, 0 requests, NaN recent hit rate, 0 save period in seconds
+Counter Cache          : entries 0, size 0 bytes, capacity 50 MiB, 0 hits, 0 requests, NaN recent hit rate, 7200 save period in seconds
+Chunk Cache            : entries 30, size 1.88 MiB, capacity 480 MiB, 520 misses, 6310 requests, 0.918 recent hit rate, NaN microseconds miss latency
+Percent Repaired       : 0.0%
+Token                  : (invoke with -T/--tokens to see all 256 tokens)</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_nodetool_removenode"><a class="link" href="#_nodetool_removenode">4.3. nodetool removenode</a></h3>
+<div class="paragraph">
+<p>현재 node를 삭제할 때 사용됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./nodetool removenode &lt;uid&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keyspace_목록_보기"><a class="link" href="#_keyspace_목록_보기">4.4. keyspace 목록 보기</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>csqlsh&gt; DESCRIBE keyspaces
+
+or
+
+cqlsh&gt; DESC keyspaces
+
+or
+
+cqlsh&gt; SELECT * FROM system_schema.keyspaces;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_column_정보_보기"><a class="link" href="#_column_정보_보기">4.5. column 정보 보기</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cqlsh&gt; select * from system_schema.columns where keyspace_name = '&lt;keyspace 명&gt;';</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cassandra_database"><a class="link" href="#_cassandra_database">5. Cassandra Database</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_database_이해"><a class="link" href="#_database_이해">5.1. Database 이해</a></h3>
+<div class="paragraph">
+<p>Cassandra에서는 Database를 Keyspace라고 말합니다.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="../images/cassandra_keyspace.png" alt="cassandra keyspace">
+</div>
+</div>
+<div class="listingblock">
+<div class="title">cqlsh로 keyspace 목록을 조회해 봅니다.</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./cqlsh
+
+cqlsh&gt; describe keyspaces;
+
+system_auth  system_traces
+system_schema  system       system_distributed</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keyspace_생성"><a class="link" href="#_keyspace_생성">5.2. keyspace 생성</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cqlsh&gt; create keyspace test_keyspace with replication = {'class': 'SimpleStrategy', 'replication_factor': '1'};
+
+cqlsh&gt; describe keyspaces;
+
+cqlsh&gt; describe keyspace test_keyspace;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_keyspace_삭제"><a class="link" href="#_keyspace_삭제">5.3. keyspace 삭제</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cqlsh&gt; drop keyspace test_keyspace;
+
+cqlsh&gt; describe keyspaces;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_table_생성"><a class="link" href="#_table_생성">5.4. table 생성</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cqlsh&gt; use test_keyspace;
+
+cqlsh:test_keyspace&gt; create table activity (
+                ...     home_id text,
+                ...     datetime timestamp,
+                ...     event text,
+                ...     code_used text,
+                ...     primary key (home_id, datetime)
+) with clustering order by (datetime desc);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cql_key_용어"><a class="link" href="#_cql_key_용어">5.5. CQL key 용어</a></h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">primary key</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>다른 RDB와 같이 primary key는 CQL table에서 각 row를 각자 unique하게 결정해주는 기준 역할을 담당합니다.</p>
+</li>
+<li>
+<p>primary key는 최소 1개 이상의 partition key와 0개 이상의 cluster key로 구성됩니다.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">composite key (= compound key)</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>1개 이상의 CQL column로 이루어진 primary key를 composite key 혹은 compound key라고 부릅니다.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">partition key</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>partition key는 partitioner에 의해 어느 노드에 저장할지 결정하는 키입니다.</p>
+</li>
+<li>
+<p>primary key 첫번째 컬럼이 partition key이다.</p>
+</li>
+<li>
+<p>예전의 row key라는 용어가 partition key로 이름이 변경되었습니다.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">cluster key</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>Cassandra Data Layer에서 Row에 속한 모든 Column들은 항상 정렬된 상태로 저장됩니다.</p>
+</li>
+<li>
+<p>따라서 cluster key는 이런 정렬에 대한 기준 역할을 담당합니다.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">descending clustering order</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p>table 생성 시 정렬순서를 역순으로 지정할 수 있습니다.</p>
+</li>
+<li>
+<p>descending으로 저장 시 시간은 조금 더 걸릴 수 있지만 application에서 사용할 때 읽기 속도를 증가시킬 수 있습니다.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cassandra_cluster_구성"><a class="link" href="#_cassandra_cluster_구성">6. Cassandra Cluster 구성</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_clustering_준비"><a class="link" href="#_clustering_준비">6.1. Clustering 준비</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="_사전_준비사항"><a class="link" href="#_사전_준비사항">6.2. 사전 준비사항</a></h3>
+<div class="paragraph">
+<p>Cassandra cluster의 각 노드는 모두 동일한 기능을 하고 있어서 새로운 노드를 추가하기가 매우 쉽습니다.<br>
+새 노드를 추가하기 위해서는 다음 조건을 만족해야 합니다.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>클러스터의 기존 노드와 동일 cluster name을 가져야 한다.</p>
+</li>
+<li>
+<p>기존 cluster 내의 노드 중 최소 하나에 접근 가능해야 한다.</p>
+</li>
+<li>
+<p>cluster 노드들은 서로 통신하기 위해 동일 네트워크에 있어야 한다.</p>
+</li>
+<li>
+<p>Cassandra는 분산 database이기 때문에 노드간 통신이 빠를수록 성능이 잘 나온다.</p>
+</li>
+<li>
+<p>권장 대역폭은 100Mbps이다.</p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_cassandra_포트"><a class="link" href="#_cassandra_포트">6.2.1. Cassandra 포트</a></h4>
+<div class="ulist">
+<ul>
+<li>
+<p>7000: 내부 노드 통신용</p>
+</li>
+<li>
+<p>9042: 클라이언트 protocol</p>
+</li>
+<li>
+<p>9160: thrift client</p>
+</li>
+<li>
+<p>7199: JMX monitoring</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_node의_ip_주소_확인"><a class="link" href="#_node의_ip_주소_확인">6.3. node의 ip 주소 확인</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>cassandra.yaml파일의 listen_address, rpc_address값에 node의 ip주소가 할당되어야 합니다.</p>
+</li>
+<li>
+<p>listen_address: cluster 내에서 node간 통신을 위한 ip</p>
+</li>
+<li>
+<p>rpc_address: client application과 통신을 위한 ip</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_seed_node_확인"><a class="link" href="#_seed_node_확인">6.4. seed node 확인</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p>seed node는 cluster에 참가하려는 새 노드의 정보를 제공하는 일반적인 노드입니다.</p>
+</li>
+<li>
+<p>cluster에서 최소 1개의 seed node가 필요합니다.</p>
+</li>
+<li>
+<p>seed node는 comma-separator list로 cassandara.yaml에 정의되어 있습니다.</p>
+</li>
+<li>
+<p>예) seed: “192.168.100.101, 192.168.100.102"</p>
+</li>
+<li>
+<p>첫번째 노드가 다운되면 cluster에 참가하기 위해 노드를 선택합니다.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_clustering_실습_예제"><a class="link" href="#_clustering_실습_예제">6.5. Clustering 실습 예제</a></h3>
+<div class="paragraph">
+<p>cluster 구성을 위해 1대의 로컬 pc에 3개의 Cluster를 구성할 예정이며 그 중 1개를 seed node로 설정할 예정입니다.</p>
+</div>
+<div class="sect3">
+<h4 id="_ip_주소_확인"><a class="link" href="#_ip_주소_확인">6.5.1. IP 주소 확인</a></h4>
+<div class="paragraph">
+<p>localhost IP는 127.0.0.1-127.255.255.255까지 사용할 수 있습니다.<br>
+linux의 경우는 추가적으로 아래 설정을 해줘야 IP를 추가적으로 사용할 수 있습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># sudo ifconfig lo0 alias 127.0.0.2 up
+# sudo ifconfig lo0 alias 127.0.0.3 up
+
+# ping 127.0.0.2
+# ping 127.0.0.3</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cassandra_설치파일_복사"><a class="link" href="#_cassandra_설치파일_복사">6.5.2. cassandra 설치파일 복사</a></h4>
+<div class="paragraph">
+<p>다운로드 받은 설치 파일을 3개의 노드에 복사를 합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">cp -R apache-cassandra-3.11.6 /Users/rudaks/cassandra_cluster/node1
+cp -R apache-cassandra-3.11.6 /Users/rudaks/cassandra_cluster/node2
+cp -R apache-cassandra-3.11.6 /Users/rudaks/cassandra_cluster/node3</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cassandra_yaml_설정_변경"><a class="link" href="#_cassandra_yaml_설정_변경">6.5.3. cassandra.yaml 설정 변경</a></h4>
+<div class="paragraph">
+<p>node1 설정변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi cassandra_cluster/node1/conf/cassandra.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">seed_provider:
+  parameters:
+    - seeds: 127.0.0.1
+data_file_directories:
+  - /Users/rudaks/cassandra_cluster/node1/data
+commitlog_directory: /Users/rudaks/cassandra_cluster/node1/commitlog
+saved_caches_directory: /Users/rudaks/cassandra_cluster/node1/saved_caches
+listen_address: 127.0.0.1
+rpc_address: 127.0.0.1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node2 설정변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi cassandra_cluster/node2/conf/cassandra.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">seed_provider:
+  parameters:
+    - seeds: 127.0.0.1
+data_file_directories:
+  - /Users/rudaks/cassandra_cluster/node2/data
+commitlog_directory: /Users/rudaks/cassandra_cluster/node2/commitlog
+saved_caches_directory: /Users/rudaks/cassandra_cluster/node2/saved_caches
+listen_address: 127.0.0.2
+rpc_address: 127.0.0.2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node3 설정변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi /Users/rudaks/cassandra_cluster/node3/conf/cassandra.yaml</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">seed_provider:
+  parameters:
+    - seeds: 127.0.0.1
+data_file_directories:
+  - /Users/rudaks/cassandra_cluster/node3/data
+commitlog_directory: /Users/rudaks/cassandra_cluster/node3/commitlog
+saved_caches_directory: /Users/rudaks/cassandra_cluster/node3/saved_caches
+listen_address: 127.0.0.3
+rpc_address: 127.0.0.3</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cassandra_env_sh_설정_변경"><a class="link" href="#_cassandra_env_sh_설정_변경">6.5.4. cassandra-env.sh 설정 변경</a></h4>
+<div class="paragraph">
+<p>로컬에서 실행하는 경우 <code>JMX_PORT</code>를 다른 포트로 실행하기 위해 아래와 같이 변경합니다.</p>
+</div>
+<div class="paragraph">
+<p>node1 설정 변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi /Users/rudaks/cassandra_cluster/node1/conf/cassandra-env.sh
+
+JMX_PORT="7199"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node2 설정 변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi /Users/rudaks/cassandra_cluster/node2/conf/cassandra-env.sh
+
+JMX_PORT="7299"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node3 설정 변경</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">vi /Users/rudaks/cassandra_cluster/node3/conf/cassandra-env.sh
+
+JMX_PORT="7399"</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cassandra_시작_3개_노드"><a class="link" href="#_cassandra_시작_3개_노드">6.6. cassandra 시작 (3개 노드)</a></h3>
+<div class="paragraph">
+<p>node1 시작</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># cd /Users/rudaks/cassandra_cluster/node1/bin
+# ./cassandra -f</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [main] 2020-04-13 15:21:36,065 Server.java:159 - Starting listening for CQL clients on /127.0.0.1:9042 (unencrypted)...
+INFO  [main] 2020-04-13 15:21:36,117 CassandraDaemon.java:556 - Not starting RPC se</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node2 시작</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># cd /Users/rudaks/cassandra_cluster/node2/bin
+# ./cassandra -f</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [main] 2020-04-13 15:22:57,198 Server.java:159 - Starting listening for CQL clients on /127.0.0.2:9042 (unencrypted)...
+INFO  [main] 2020-04-13 15:22:57,261 CassandraDaemon.java:556 - Not starting RPC server as requested. Use JMX (StorageService-&gt;startRPCServer()) or nodetool (enablethrift) to start it</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node2가 기동되면 node1에 node2와 handshaking이 되었다는 로그가 표시됩니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [GossipStage:1] 2020-04-13 15:22:48,864 Gossiper.java:1089 - InetAddress /127.0.0.2 is now UP
+INFO  [HANDSHAKE-/127.0.0.2] 2020-04-13 15:22:48,982 OutboundTcpConnection.java:561 - Handshaking version with /127.0.0.2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node3 시작</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># cd /Users/rudaks/cassandra_cluster/node3/bin
+# ./cassandra -f</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [main] 2020-04-13 15:25:46,527 Server.java:159 - Starting listening for CQL clients on /127.0.0.3:9042 (unencrypted)...
+INFO  [main] 2020-04-13 15:25:46,583 CassandraDaemon.java:556 - Not starting RPC server as requested. Use JMX (StorageService-&gt;startRPCServer()) or nodetool (enablethrift) to start it</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node3가 기동되면 node1과 node2에 node3와 handshaking이 되었다는 로그가 표시된다.</p>
+</div>
+<div class="paragraph">
+<p>node1 로그</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [HANDSHAKE-/127.0.0.3] 2020-04-13 15:28:33,078 OutboundTcpConnection.java:561 - Handshaking version with /127.0.0.3
+INFO  [GossipStage:1] 2020-04-13 15:28:33,065 Gossiper.java:1089 - InetAddress /127.0.0.3 is now UP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>node2 로그</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>INFO  [HANDSHAKE-/127.0.0.3] 2020-04-13 15:28:31,775 OutboundTcpConnection.java:561 - Handshaking version with /127.0.0.3
+INFO  [GossipStage:1] 2020-04-13 15:28:33,194 Gossiper.java:1089 - InetAddress /127.0.0.3 is now UP</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_keyspace_생성_2"><a class="link" href="#_keyspace_생성_2">6.6.1. keyspace 생성</a></h4>
+<div class="paragraph">
+<p>keyspace 생성 시 replication_factor를 node의 수만큼 생성합니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>cql&gt; CREATE KEYSPACE attic WITH replication = {'class': 'SimpleStrategy', 'replication_factor': ‘3'} AND durable_writes = true;"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_cassandra_stress_tool"><a class="link" href="#_cassandra_stress_tool">7. Cassandra Stress Tool</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Cassandra-stress tool은 cassandra cluster의 부하 테스트를 위한 java기반 stress testing 유틸리티 입니다.</p>
+</div>
+<div class="sect2">
+<h3 id="_설치"><a class="link" href="#_설치">7.1. 설치</a></h3>
+<div class="paragraph">
+<p>Cassandra Stress Tool은 Casandra 설치파일 안에 포함되어 있습니다.<br>
+{CASSANDRA_HOME}/tools</p>
+</div>
+<div class="paragraph">
+<p>yaml파일 없이 시작하면 Cassandra-stress tool은 자동으로 keyspace(keyspace1)와 table(standard1)을 만듭니다.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_실행"><a class="link" href="#_실행">7.2. 실행</a></h3>
+<div class="paragraph">
+<p>아래 명령어로 stress tool을 실행할 수 있습니다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># tools/bin/cassandra-stress write n=100000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>이 명령어로 keyspace와 table을 자동으로 생성합니다.</p>
+</div>
+<div class="paragraph">
+<p>Step 1. keyspace 생성</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE KEYSPACE IF NOT EXISTS keyspace1
+WITH durable_writes = true
+AND replication = {
+'class' : 'SimpleStrategy',
+'replication_factor' : 1
+};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Step 2. table 생성</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">CREATE TABLE IF NOT EXISTS standard1
+  (key blob PRIMARY KEY,
+   "C0" blob, "C1" blob, "C2" blob, "C3" blob, "C4" blob) WITH COMPACT STORAGE AND compression = {};</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Step 3. 실행</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>./cassandra-stress write n=100
+
+WARN  08:50:38,383 You listed localhost/0:0:0:0:0:0:0:1:9042 in your contact points, but it wasn't found in the control host's system.peers at startup
+Connected to cluster: Test Cluster, max pending requests per connection 128, max connections per host 8
+Datatacenter: datacenter1; Host: localhost/127.0.0.1; Rack: rack1
+Created keyspaces. Sleeping 1s for propagation.
+Sleeping 2s...
+Warming up WRITE with 25 iterations...
+Running WRITE with 200 threads for 100 iteration
+type       total ops,    op/s,    pk/s,   row/s,    mean,     med,     .95,     .99,    .999,     max,   time,   stderr, errors,  gc: #,  max ms,  sum ms,  sdv ms,      mb
+total,           100,     121,     121,     121,     5.6,     4.9,    10.3,    13.3,    13.6,    13.6,    0.8,  0.00000,      0,      0,       0,       0,       0,       0
+
+
+Results:
+Op rate                   :      121 op/s  [WRITE: 121 op/s]
+Partition rate            :      121 pk/s  [WRITE: 121 pk/s]
+Row rate                  :      121 row/s [WRITE: 121 row/s]
+Latency mean              :    5.6 ms [WRITE: 5.6 ms]
+Latency median            :    4.9 ms [WRITE: 4.9 ms]
+Latency 95th percentile   :   10.3 ms [WRITE: 10.3 ms]
+Latency 99th percentile   :   13.3 ms [WRITE: 13.3 ms]
+Latency 99.9th percentile :   13.6 ms [WRITE: 13.6 ms]
+Latency max               :   13.6 ms [WRITE: 13.6 ms]
+Total partitions          :        100 [WRITE: 100]
+Total errors              :          0 [WRITE: 0]
+Total GC count            : 0
+Total GC memory           : 0.000 KiB
+Total GC time             :    0.0 seconds
+Avg GC time               :    NaN ms
+StdDev GC time            :    0.0 ms
+Total operation time      : 00:00:00
+
+END</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. cassandra-stress 결과</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">total ops</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 실행 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">op/s</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">초당 실행된 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pk/s</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">초당 실행된 파티션 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">row/s</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">초당 실행된 row 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">각 실행에 대한 평균 latency (millisecond 당)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">med</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중간 latency (millisecond 당)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">.95</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">컬럼에 표시된 수보다 적은 latency 시간의 95%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">.99</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">컬럼에 표시된 수보다 적은 latency 시간의 99%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">.999</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">컬럼에 표시된 수보다 적은 latency 시간의 99.9%</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">max</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">최대 latency</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 실행 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stderr</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">기본 에러</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">gc: #</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">garbage collection 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">max ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">가장 긴 garbage collection 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sum ms</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">총 garbage collection 시간</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">sdv</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">표준 편차</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">mb</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">megabyte당 garbage collection 크기</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_trouble_shooting"><a class="link" href="#_trouble_shooting">8. Trouble Shooting</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_접속_오류"><a class="link" href="#_접속_오류">8.1. 접속 오류</a></h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Problem</dt>
+<dd>
+<p>외부에서 Cassandra 서버로 연결이 안되는 경우</p>
+</dd>
+<dt class="hdlist1">Possible Resolution</dt>
+<dd>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>해당 서버에 방화벽이 있는지 확인 (9042, 7000, 7199)</p>
+</li>
+<li>
+<p>listen_address, rpc_address가 외부에서 인식할 수 있는 ip로 설정되어 있는지 확인 (casandra.yaml)</p>
+</li>
+</ol>
+</div>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>위의 내용을 확인하고 서버에 접속해본다.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash"># ./cqlsh 172.16.100.158
+
+Connected to Test Cluster at 172.16.100.158:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.6 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+cqlsh&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-04-20 10:48:54 +0900
+</div>
+</div>
+<link rel="stylesheet" href="../static/highlight/sendbird/styles/github.min.css">
+<script src="../static/highlight/sendbird/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
+</body>
+</html>

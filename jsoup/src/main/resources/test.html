@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<div class="sect1">
+    <h2 id="_introduction"><a class="link" href="#_introduction">1. Introduction</a></h2>
+    <div class="sectionbody">
+        <div class="paragraph">
+            <p>introduction 설명</p>
+        </div>
+        <div class="sect2">
+            <h3 id="_cassandra_특징"><a class="link" href="#_cassandra_특징">1.1. Cassandra 특징</a></h3>
+            <div class="ulist">
+                <ul>
+                    <li>
+                        <p>Open Source</p>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="sect2">
+            <h3 id="_cassandra_설명"><a class="link" href="#_cassandra_설명">1.2. Cassandra 설명</a></h3>
+            <div class="paragraph">
+                <p>Cassandra는 </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="sect2">
+    <h3 id="_snitch_란"><a class="link" href="#_snitch_란">2.3. Snitch 란?</a></h3>
+    <div class="paragraph">
+        <p>snitch는 데이타센터가 어떻게 구성되어 있는지, 장비가 설치된 렉이 어떻게 나뉘어져 있는지에 대한 topology를 Cassandra에 알려주기 위한 옵션입니다.</p>
+    </div>
+    <div class="paragraph">
+        <p>어떤 방법들이 사용되는가?</p>
+    </div>
+    <div class="ulist">
+        <ul>
+            <li>
+                <p>Dynamic Snitching</p>
+            </li>
+            <li>
+                <p>SimpleSnitch (default)</p>
+            </li>
+            <li>
+                <p>RactInferringSnitch</p>
+            </li>
+            <li>
+                <p>PropertyFileSnitch</p>
+            </li>
+            <li>
+                <p>GossipingPropertyFileSnitch</p>
+            </li>
+            <li>
+                <p>EC2Snitch</p>
+            </li>
+            <li>
+                <p>EC2MultiRegionSnitch</p>
+            </li>
+        </ul>
+    </div>
+    <div class="paragraph">
+        <p>기본값인 SimpleSnitch는 하나의 cluster(1 data center)에서는 전혀 문제 없이 사용할 수 있습니다. 하지만 여러 개의 data center를 구성할 경우 변경해야 합니.</p>
+    </div>
+</div>
+
+</body>
+</html>
