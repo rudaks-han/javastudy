@@ -19,7 +19,6 @@
         <module>java-parser</module>
         <module>java-source-roaster</module>
         <module>velocity</module>
-        <module>kafka</module>
         <module>jpa</module>
         <module>java8</module>
         <module>jackson</module>
@@ -27,6 +26,8 @@
         <module>jsoup</module>
         <module>lombok</module>
         <module>spring-cloud</module>
+        <module>kafka-springdata</module>
+        <module>kafka-example</module>
     </modules>
 
     <properties>
