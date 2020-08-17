@@ -28,6 +28,7 @@
         <module>spring-cloud</module>
         <module>kafka-springdata</module>
         <module>kafka-example</module>
+        <module>kafka-streams-example</module>
     </modules>
 
     <properties>
