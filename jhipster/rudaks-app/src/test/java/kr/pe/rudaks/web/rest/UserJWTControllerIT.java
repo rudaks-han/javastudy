@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.isEmptyString;
 import static org.hamcrest.Matchers.not;
 
 /**
- * Integration tests for the {@link UserJWTController} REST controller.
+ * Integration tests for the {@link UserJWTController} REST rudaks.controller.
  */
 @SpringBootTest(classes = RudaksApp.class)
 public class UserJWTControllerIT {
