@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Integration tests for the {@link ClientForwardController} REST controller.
+ * Integration tests for the {@link ClientForwardController} REST rudaks.controller.
  */
 @SpringBootTest(classes = RudaksApp.class)
 public class ClientForwardControllerIT {

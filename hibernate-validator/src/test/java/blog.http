@@ -1,0 +1,11 @@
+POST http://localhost:8080/blogs
+content-Type: application/json
+
+{
+  "id": "rudaks",
+  "name": "루닥스",
+  "title": "제목"
+
+}
+
+###
