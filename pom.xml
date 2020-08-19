@@ -29,6 +29,7 @@
         <module>kafka-springdata</module>
         <module>kafka-example</module>
         <module>kafka-streams-example</module>
+        <module>kafka-stream-starter-project</module>
     </modules>
 
     <properties>
