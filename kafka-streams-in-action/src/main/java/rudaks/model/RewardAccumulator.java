@@ -1,30 +1,9 @@
-/*
- * Copyright 2016 Bill Bejeck
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package rudaks.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * User: Bill Bejeck
- * Date: 2/20/16
- * Time: 9:55 AM
- */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -32,11 +11,93 @@ public class RewardAccumulator {
 
     private String customerId;
     private double purchaseTotal;
-    private int rewardPoints;
+    private int totalRewardPoints;
+    private int currentRewardPoints;
+    private int daysFromLastPurchase;
+
+    //private double rewardPoints;
 
     public RewardAccumulator(Purchase purchase) {
         this.customerId = purchase.getCustomerId();
         this.purchaseTotal = purchase.getPrice() * (double) purchase.getQuantity();
-        this.rewardPoints = (int) purchaseTotal;
+        this.currentRewardPoints = (int) purchaseTotal;
+        this.totalRewardPoints = (int) purchaseTotal;
+        //this.rewardPoints =  purchaseTotal;
+        //this.currentRewardPoints = rewardPoints;
+        //this.totalRewardPoints = rewardPoints;
     }
+
+    /*public RewardAccumulator(String customerId, int purchaseTotal, int rewardPoints) {
+        this.customerId = customerId;
+        this.purchaseTotal = purchaseTotal;
+        this.currentRewardPoints = rewardPoints;
+        this.totalRewardPoints = rewardPoints;
+    }*/
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public double getPurchaseTotal() {
+        return purchaseTotal;
+    }
+
+    public void setPurchaseTotal(double purchaseTotal) {
+        this.purchaseTotal = purchaseTotal;
+    }
+
+    public int getCurrentRewardPoints() {
+        return currentRewardPoints;
+    }
+
+    public void setCurrentRewardPoints(int currentRewardPoints) {
+        this.currentRewardPoints = currentRewardPoints;
+    }
+
+    public int getTotalRewardPoints() {
+        return totalRewardPoints;
+    }
+
+    public void setTotalRewardPoints(int totalRewardPoints) {
+        this.totalRewardPoints = totalRewardPoints;
+    }
+
+    public void addRewardPoints(double previousTotalPoints) {
+        this.totalRewardPoints += previousTotalPoints;
+    }
+
+    public int getDaysFromLastPurchase() {
+        return daysFromLastPurchase;
+    }
+
+    public void setDaysFromLastPurchase(int daysFromLastPurchase) {
+        this.daysFromLastPurchase = daysFromLastPurchase;
+    }
+
+
+    /*
+    public static Builder builder(Purchase purchase){return new Builder(purchase);}
+
+    public static final class Builder {
+        private String customerId;
+        private double purchaseTotal;
+        private int daysFromLastPurchase;
+        private int rewardPoints;
+
+        private Builder(Purchase purchase){
+            this.customerId = purchase.getCustomerId();
+            this.purchaseTotal = purchase.getPrice() * (double) purchase.getQuantity();
+            this.rewardPoints = (int) purchaseTotal;
+        }
+
+
+        public RewardAccumulator build(){
+            return new RewardAccumulator(customerId, purchaseTotal, rewardPoints);
+        }
+
+    }*/
 }

@@ -3,7 +3,7 @@ package rudaks.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rudaks.JsonUtil;
+import rudaks.util.JsonUtil;
 
 import java.util.Objects;
 

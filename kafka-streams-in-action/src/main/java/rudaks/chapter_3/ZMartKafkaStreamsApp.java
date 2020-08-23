@@ -1,4 +1,4 @@
-package rudaks;
+package rudaks.chapter_3;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -24,21 +24,10 @@ public class ZMartKafkaStreamsApp {
 
         StreamsBuilder streamsBuilder = new StreamsBuilder();
 
-        /*KStream<String,Purchase> purchaseKStream = streamsBuilder.stream(
-                "transactions",
-                Consumed.with(Serdes.String(), new JsonSerde<>(Purchase.class))
-        ).mapValues(p -> Purchase.builder(p).maskCreditCard().build());
-
-        KStream<String, PurchasePattern> patternKStream = purchaseKStream.mapValues(
-                purchase -> PurchasePattern.builder(purchase).build()
-        );
-        */
-
         KStream<String, Purchase> purchaseKStream = streamsBuilder.stream(
                 "transactions",
                 Consumed.with(Serdes.String(), new JsonSerde<>(Purchase.class))
         ).mapValues(p -> p.maskCreditCard());
-
 
         KStream<String, PurchasePattern> patternKStream = purchaseKStream.mapValues(
                 purchase -> new PurchasePattern(purchase)

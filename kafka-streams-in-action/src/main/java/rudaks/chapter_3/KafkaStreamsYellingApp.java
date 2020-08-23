@@ -1,4 +1,4 @@
-package rudaks;
+package rudaks.chapter_3;
 
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
