@@ -1,28 +1,27 @@
 package rudaks;
 
-/**
- * 1. Stream from Kafka                                 <null, "Kafka Kafka Streams">
- * 2. MapValues lowercase                               <null, "kafka kafka streams">
- * 3. FlatMapValues split by space                      <null, "kafka">, <null, "kafka">, <null, "streams">
- * 4. SelectKey to apply a key                          <"kafka", "kafka">, <"kafka", "kafka">, <"streams", "streams">
- * 5. GroupByKey before aggregation                     (<"kafka", "kafka">, <"kafka", "kafka">), (<"streams", "streams">)
- * 6. Count occurrences in each group                   <"kafka", 2>, <"streams", 1>
- * 7. To in order to writer the results back to Kafka
- */
-public class StreamsStarterApp {
+import java.util.Arrays;
+import java.util.Properties;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KafkaStreams;
+import org.apache.kafka.streams.StreamsConfig;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KStreamBuilder;
+import org.apache.kafka.streams.kstream.KTable;
+
+public class WordCountApp {
     public static void main(String[] args) {
-
-        /*Properties config = new Properties();
-        config.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application");
-        config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        Properties config = new Properties();
+        config.put(StreamsConfig.APPLICATION_ID_CONFIG, "wordcount-application11");
+        config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:19092");
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         config.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
 
         KStreamBuilder builder = new KStreamBuilder();
-
-        // 1 - stream from kafka
+        // 1 - stream from Kafka
 
         KStream<String, String> textLines = builder.stream("word-count-input");
         KTable<String, Long> wordCounts = textLines
@@ -45,12 +44,14 @@ public class StreamsStarterApp {
         KafkaStreams streams = new KafkaStreams(builder, config);
         streams.start();
 
-        // shutdown hook to correctly close streams
-        Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
+
+
+        // shutdown hook to correctly close the streams application
+        /*Runtime.getRuntime().addShutdownHook(new Thread(streams::close));
 
         // Update:
         // print the topology every 10 seconds for learning purposes
-        while (true) {
+        while(true){
             System.out.println(streams.toString());
             try {
                 Thread.sleep(5000);
@@ -59,11 +60,6 @@ public class StreamsStarterApp {
             }
         }*/
 
+
     }
 }
-
-
-/*
-./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic word-count-input
-./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic word-count-output
- */

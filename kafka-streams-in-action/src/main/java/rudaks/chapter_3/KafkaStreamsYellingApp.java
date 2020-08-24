@@ -17,7 +17,7 @@ public class KafkaStreamsYellingApp {
         Properties props = new Properties();
 
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "yelling_app_id");
-        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:19092");
 
         // 1. StreamsConfig 인스턴스 생성
         StreamsConfig streamsConfig = new StreamsConfig(props);
