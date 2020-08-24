@@ -18,10 +18,10 @@ package rudaks.serde;
 import java.util.HashMap;
 import java.util.Map;
 
-import guru.learningjournal.kafka.examples.types.PosInvoice;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import rudaks.types.Notification;
+import rudaks.types.PosInvoice;
 
 /**
  * Factory class for Serdes

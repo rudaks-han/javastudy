@@ -2,7 +2,6 @@ package rudaks;
 
 import java.util.Properties;
 
-import guru.learningjournal.kafka.examples.types.PosInvoice;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
@@ -14,6 +13,7 @@ import org.apache.kafka.streams.state.Stores;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rudaks.serde.AppSerdes;
+import rudaks.types.PosInvoice;
 
 public class RewardsApp {
 

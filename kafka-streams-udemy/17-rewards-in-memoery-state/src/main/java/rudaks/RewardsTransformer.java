@@ -1,10 +1,10 @@
 package rudaks;
 
-import guru.learningjournal.kafka.examples.types.PosInvoice;
 import org.apache.kafka.streams.kstream.ValueTransformer;
 import org.apache.kafka.streams.processor.ProcessorContext;
 import org.apache.kafka.streams.state.KeyValueStore;
 import rudaks.types.Notification;
+import rudaks.types.PosInvoice;
 
 public class RewardsTransformer implements ValueTransformer<PosInvoice, Notification> {
 
