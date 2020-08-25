@@ -30,7 +30,6 @@
         <module>kafka-example</module>
         <module>kafka-streams-in-action</module>
         <module>kafka-stream-starter-project</module>
-        <module>kafka-streams-udemy</module>
     </modules>
 
     <properties>
