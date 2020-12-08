@@ -31,6 +31,7 @@
         <module>kafka-stream-starter-project</module>
         <module>kafka-streams</module>
         <module>resttemplate-example</module>
+        <module>poi-performance</module>
     </modules>
 
     <properties>
