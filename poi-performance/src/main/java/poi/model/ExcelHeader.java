@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ExcelHeader {
     private String columnName;
-
     private String headerName;
 
     private short columnAlign;

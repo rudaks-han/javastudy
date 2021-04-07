@@ -32,6 +32,7 @@
         <module>kafka-streams</module>
         <module>resttemplate-example</module>
         <module>poi-performance</module>
+        <module>pf4j-spring</module>
     </modules>
 
     <properties>
