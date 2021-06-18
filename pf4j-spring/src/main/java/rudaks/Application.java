@@ -1,13 +1,15 @@
-package kafka;
+package rudaks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
-@EnableKafka
-public class SpringKafkaApplication {
+public class Application {
+
+
     public static void main(String[] args) {
-        SpringApplication.run(SpringKafkaApplication.class, args);
+
+
+        SpringApplication.run(Application.class, args);
     }
 }
