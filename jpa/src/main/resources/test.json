@@ -1,0 +1,12 @@
+{
+  "invoiceNumber": 123456,
+  "createdTime": 1111111111,
+  "storeId": "S123",
+  "posId": "POS354",
+  "cashierId": "CAS123",
+  "customerCardNo": "3000124223",
+  "deliveryType": "home"
+}
+
+
+
